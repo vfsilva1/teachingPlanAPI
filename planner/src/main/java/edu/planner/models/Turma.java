@@ -2,9 +2,18 @@ package edu.planner.models;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.Digits;
+
 import edu.planner.enums.Periodo;
 import edu.planner.enums.Semestre;
 
+@Entity
 public class Turma implements Serializable {
 
 	/**
@@ -12,18 +21,26 @@ public class Turma implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private Integer periodo;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "id")
 	private Disciplina disciplina;
-	
+
 	private Integer semestre;
-	
+
+	@Digits(fraction=0, integer=4, message="Valor inválido")
 	private Integer ano;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "id")
 	private Usuario professor;
 
+	
 	public Integer getId() {
 		return id;
 	}
@@ -69,10 +86,10 @@ public class Turma implements Serializable {
 	}
 
 	public void setProfessor(Usuario professor) {
-		if(!professor.getIsProfessor()) {
+		if (!professor.getIsProfessor()) {
 			throw new IllegalArgumentException("O usuário " + professor.getNome() + " não é um Professor");
 		}
-		
+
 		this.professor = professor;
 	}
 }

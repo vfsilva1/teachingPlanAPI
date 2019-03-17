@@ -4,8 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 import edu.planner.enums.TipoDisciplina;
 
+@Entity
 public class Disciplina implements Serializable {
 
 	/**
@@ -13,16 +23,26 @@ public class Disciplina implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	private String nome;
 
 	private String tipo;
 
+	// TODO Mapear item que não possue referencia dos dois lados
+	@ManyToOne
+	@JoinColumn(name = "id")
 	private Usuario responsavel;
 
+	@OneToMany(mappedBy = "disciplina")
+	private List<Turma> turmas = new ArrayList<Turma>();
+
+	@ManyToMany(mappedBy = "disciplinas")
 	private List<Curso> cursos = new ArrayList<Curso>();
 
+	
 	public Integer getId() {
 		return id;
 	}
@@ -57,6 +77,14 @@ public class Disciplina implements Serializable {
 		}
 
 		this.responsavel = responsavel;
+	}
+
+	public List<Turma> getTurmas() {
+		return turmas;
+	}
+
+	public void setTurmas(List<Turma> turmas) {
+		this.turmas = turmas;
 	}
 
 	public List<Curso> getCursos() {

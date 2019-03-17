@@ -6,11 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
 import edu.planner.enums.EnumTipoUsuario;
 import edu.planner.enums.Titulacao;
 
+@Entity
 public class Usuario implements Serializable {
 
 	/**
@@ -18,6 +26,8 @@ public class Usuario implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	private String nome;
@@ -28,6 +38,12 @@ public class Usuario implements Serializable {
 
 	private String hashKey;
 
+	// TODO Mapear item que não possue referencia dos dois lados
+	@ManyToMany
+	@JoinTable(name = "USUARIO_TIPO_USUARIO",
+		joinColumns = @JoinColumn(name = "id"),
+		inverseJoinColumns = @JoinColumn(name = "id")
+	)
 	private List<TipoUsuario> tiposUsuarios = new ArrayList<TipoUsuario>();
 
 	@Transient

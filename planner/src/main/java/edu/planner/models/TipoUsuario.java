@@ -4,6 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+@Entity
 public class TipoUsuario implements Serializable {
 
 	/**
@@ -11,12 +18,21 @@ public class TipoUsuario implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	// O id deve seguir os valores de EnumTipoUsuario
+	@Id
 	private Integer id;
-	
-	private String nome;
-	
-	private List<Privilegio> privilegios = new ArrayList<Privilegio>();
 
+	private String nome;
+
+	// TODO Mapear item que não possue referencia dos dois lados
+	@ManyToMany
+	@JoinTable(name = "PRIVILEGIO_TIPO_USUARIO",
+		joinColumns = @JoinColumn(name = "id"),
+		inverseJoinColumns = @JoinColumn(name = "id")
+	)
+	private List<Privilegio> privilegios = new ArrayList<Privilegio>();
+	
+	
 	public Integer getId() {
 		return id;
 	}
