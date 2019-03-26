@@ -28,7 +28,7 @@ public class Turma implements Serializable {
 	private Integer periodo;
 
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "disciplina")
 	private Disciplina disciplina;
 
 	private Integer semestre;
@@ -37,7 +37,7 @@ public class Turma implements Serializable {
 	private Integer ano;
 
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "professor")
 	private Usuario professor;
 
 	

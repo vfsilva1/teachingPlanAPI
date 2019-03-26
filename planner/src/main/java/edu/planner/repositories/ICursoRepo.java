@@ -8,5 +8,5 @@ import edu.planner.models.Curso;
 
 public interface ICursoRepo extends PagingAndSortingRepository<Curso, Integer> {
 
-	public Page<Curso> findByDescricaoContaining(Pageable page, String descricao);
+	public Page<Curso> findByNomeContaining(Pageable page, String descricao);
 }

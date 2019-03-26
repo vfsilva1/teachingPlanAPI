@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,19 +25,20 @@ public class Curso implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column
 	private String nome;
 	
 	// TODO Mapear item que não possue referencia dos dois lados
 	@ManyToMany
 	@JoinTable(name = "COORD_CURSO",
-		joinColumns = @JoinColumn(name = "id"),
+		joinColumns = @JoinColumn(name = "coordenador"),
 		inverseJoinColumns = @JoinColumn(name = "id")
 	)
 	private List<Usuario> coordenadores = new ArrayList<Usuario>();
 
 	@ManyToMany
 	@JoinTable(name = "CURSO_DISCIPLINA",
-		joinColumns = @JoinColumn(name = "id"),
+		joinColumns = @JoinColumn(name = "disciplina"),
 		inverseJoinColumns = @JoinColumn(name = "id")
 	)
 	private List<Disciplina> disciplinas = new ArrayList<Disciplina>();

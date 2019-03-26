@@ -41,7 +41,7 @@ public class Usuario implements Serializable {
 	// TODO Mapear item que não possue referencia dos dois lados
 	@ManyToMany
 	@JoinTable(name = "USUARIO_TIPO_USUARIO",
-		joinColumns = @JoinColumn(name = "id"),
+		joinColumns = @JoinColumn(name = "tipoUsuario"),
 		inverseJoinColumns = @JoinColumn(name = "id")
 	)
 	private List<TipoUsuario> tiposUsuarios = new ArrayList<TipoUsuario>();

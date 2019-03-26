@@ -4,12 +4,14 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import edu.planner.exception.BusinessException;
 import edu.planner.exception.ErrorCode;
 import edu.planner.models.Curso;
 import edu.planner.repositories.ICursoRepo;
 
+@Service
 public class CursoService implements IService<Curso> {
 
 	@Autowired
@@ -55,7 +57,7 @@ public class CursoService implements IService<Curso> {
 	public Page<Curso> findPageable(int page, int count, String descricao) {
 		Page<Curso> curso = null;
 		try {
-			curso = iCursoRepo.findByDescricaoContaining(PageRequest.of(page, count), descricao);
+			curso = iCursoRepo.findByNomeContaining(PageRequest.of(page, count), descricao);
 		} catch (Exception e) {
 			throw new BusinessException(ErrorCode.CURSO_SEARCH, e);
 		}
