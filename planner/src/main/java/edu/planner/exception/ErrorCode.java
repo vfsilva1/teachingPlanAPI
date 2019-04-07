@@ -9,9 +9,35 @@ public enum ErrorCode {
 	CURSO_SEARCH(1004, "Erro ao consultar curso"),
 	
 	DISCIPLINA_SAVE(1020, "Erro ao salvar disciplina"),
-	DISCIPLINA_UPDATE(1020, "Erro ao alterar disciplina"),
-	DISCIPLINA_DELETE(1020, "Erro ao remover disciplina"),
+	DISCIPLINA_UPDATE(1021, "Erro ao alterar disciplina"),
+	DISCIPLINA_DELETE(1022, "Erro ao remover disciplina"),
+	DISCIPLINA_DELETE_VIOLATION(1023, "Não é possível remover um disciplina em uso"),
+	DISCIPLINA_SEARCH(1024, "Erro ao consultar disciplina"),
 	
+	PRIVILEGIO_SAVE(1040, "Erro ao salvar privilégio"),
+	PRIVILEGIO_UPDATE(1041, "Erro ao alterar privilégio"),
+	PRIVILEGIO_DELETE(1042, "Erro ao remover privilégio"),
+	PRIVILEGIO_DELETE_VIOLATION(1043, "Não é possível remover um privilégio em uso"),
+	PRIVILEGIO_SEARCH(1044, "Erro ao consultar privilégio"),
+	
+	TIPO_USUARIO_SAVE(1060, "Erro ao salvar tipo de usuário"),
+	TIPO_USUARIO_UPDATE(1061, "Erro ao alterar tipo de usuário"),
+	TIPO_USUARIO_DELETE(1062, "Erro ao remover tipo de usuário"),
+	TIPO_USUARIO_DELETE_VIOLATION(1063, "Não é possível remover um tipo de usuário em uso"),
+	TIPO_USUARIO_SEARCH(1064, "Erro ao consultar tipo de usuário"),
+	
+	TURMA_SAVE(1080, "Erro ao salvar turma"),
+	TURMA_UPDATE(1081, "Erro ao alterar turma"),
+	TURMA_DELETE(1082, "Erro ao remover turma"),
+	TURMA_DELETE_VIOLATION(1083, "Não é possível remover uma turma em uso"),
+	TURMA_SEARCH(1084, "Erro ao consultar turma"),
+	
+	USUARIO_SAVE(1100, "Erro ao salvar usuário"),
+	USUARIO_UPDATE(1101, "Erro ao alterar usuário"),
+	USUARIO_DELETE(1102, "Erro ao remover usuário"),
+	USUARIO_DELETE_VIOLATION(1103, "Não é possível remover um usuário em uso"),
+	USUARIO_SEARCH(1104, "Erro ao consultar usuário"),
+
 	ULTIMO_ERRO(9999, "");
 	
 	private final int code;

@@ -23,7 +23,7 @@ public class DisciplinaService implements IService<Disciplina> {
 		try {
 			disciplinaIncluido = iDisciplinaRepo.save(disciplina);
 		} catch (Exception e) {
-			throw new BusinessException(ErrorCode.CURSO_SAVE, e);
+			throw new BusinessException(ErrorCode.DISCIPLINA_SAVE, e);
 		}
 		return disciplinaIncluido;
 	}
@@ -34,7 +34,7 @@ public class DisciplinaService implements IService<Disciplina> {
 		try {
 			disciplinaAlterado = iDisciplinaRepo.save(disciplina);
 		} catch (Exception e) {
-			throw new BusinessException(ErrorCode.CURSO_UPDATE, e);
+			throw new BusinessException(ErrorCode.DISCIPLINA_UPDATE, e);
 		}
 		return disciplinaAlterado;
 	}
@@ -47,9 +47,9 @@ public class DisciplinaService implements IService<Disciplina> {
 			iDisciplinaRepo.deleteById(id);
 			retorno = true;
 		} catch (ConstraintViolationException e) {
-			throw new BusinessException(ErrorCode.CURSO_DELETE_VIOLATION, e);
+			throw new BusinessException(ErrorCode.DISCIPLINA_DELETE_VIOLATION, e);
 		} catch (Exception e) {
-			throw new BusinessException(ErrorCode.CURSO_DELETE, e);
+			throw new BusinessException(ErrorCode.DISCIPLINA_DELETE, e);
 		}
 		return retorno;
 	}
@@ -60,7 +60,7 @@ public class DisciplinaService implements IService<Disciplina> {
 			disciplina = iDisciplinaRepo.findByNomeContaining(PageRequest.of(page, count), descricao);
 
 		} catch (Exception e) {
-			throw new BusinessException(ErrorCode.CURSO_SEARCH, e);
+			throw new BusinessException(ErrorCode.DISCIPLINA_SEARCH, e);
 		}
 
 		return disciplina;
