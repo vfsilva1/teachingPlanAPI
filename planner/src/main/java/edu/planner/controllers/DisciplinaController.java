@@ -13,41 +13,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.planner.models.Curso;
-import edu.planner.service.CursoService;
+import edu.planner.models.Disciplina;
+import edu.planner.service.DisciplinaService;
 
 @RestController
-@RequestMapping("api/curso")
-public class CursoController implements IController<Curso> {
+@RequestMapping("api/disciplina")
+public class DisciplinaController implements IController<Disciplina> {
 
 	@Autowired
-	CursoService cursoService;
+	DisciplinaService disciplinaService;
 
 	@Override
 	@PostMapping
-	public ResponseEntity<Curso> insert(@RequestBody Curso curso) {
-		curso = cursoService.insert(curso);
-		return curso != null ? ResponseEntity.ok(curso) : ResponseEntity.noContent().build();
+	public ResponseEntity<Disciplina> insert(@RequestBody Disciplina disciplina) {
+		disciplina = disciplinaService.insert(disciplina);
+		return disciplina != null ? ResponseEntity.ok(disciplina) : ResponseEntity.noContent().build();
 	}
 
 	@Override
 	@PutMapping
-	public ResponseEntity<Curso> update(@RequestBody Curso curso) {
-		curso = cursoService.update(curso);
-		return curso != null ? ResponseEntity.ok(curso) : ResponseEntity.noContent().build();
+	public ResponseEntity<Disciplina> update(@RequestBody Disciplina disciplina) {
+		disciplina = disciplinaService.update(disciplina);
+		return disciplina != null ? ResponseEntity.ok(disciplina) : ResponseEntity.noContent().build();
 	}
 
 	@Override
 	@DeleteMapping("{id}")
 	public ResponseEntity<Boolean> delete(@PathVariable int id) {
-		Boolean retorno = cursoService.delete(id);
+		Boolean retorno = disciplinaService.delete(id);
 		return retorno ? ResponseEntity.ok(retorno) : ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	}
 
 	@GetMapping("/intervalo/{page}/{count}/{descricao}")
-	public ResponseEntity<Page<Curso>> findPageable(@PathVariable("page") int page, @PathVariable("count") int count,
+	public ResponseEntity<Page<Disciplina>> findPageable(@PathVariable("page") int page, @PathVariable("count") int count,
 			@PathVariable("descricao") String descricao) {
-		Page<Curso> curso = cursoService.findPageable(page, count, descricao);
-		return curso != null ? ResponseEntity.ok(curso) : ResponseEntity.noContent().build();
+		Page<Disciplina> disciplina = disciplinaService.findPageable(page, count, descricao);
+		return disciplina != null ? ResponseEntity.ok(disciplina) : ResponseEntity.noContent().build();
 	}
 }

@@ -34,7 +34,6 @@ public class Disciplina implements Serializable {
 	@Column
 	private String tipo;
 
-	// TODO Mapear item que não possue referencia dos dois lados
 	@ManyToOne
 	@JoinColumn(name = "responsavel")
 	private Usuario responsavel;
