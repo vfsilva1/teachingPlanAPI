@@ -4,6 +4,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import edu.planner.exception.BusinessException;
@@ -17,10 +18,14 @@ public class UsuarioService implements IService<Usuario> {
 	@Autowired
 	IUsuarioRepo iUsuarioRepo;
 
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	@Override
 	public Usuario insert(Usuario usuario) {
 		Usuario usuarioIncluido = null;
 		try {
+			usuario.setHashKey(bCryptPasswordEncoder.encode(usuario.getHashKey()));
 			usuarioIncluido = iUsuarioRepo.save(usuario);
 		} catch (Exception e) {
 			throw new BusinessException(ErrorCode.USUARIO_SAVE, e);
