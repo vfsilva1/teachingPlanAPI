@@ -1,5 +1,7 @@
 package edu.planner.service;
 
+import java.util.Optional;
+
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -63,5 +65,27 @@ public class PrivilegioService implements IService<Privilegio> {
 		}
 
 		return privilegio;
+	}
+
+	public Iterable<Privilegio> findAll() {
+		Iterable<Privilegio> privilegio = null;
+		try {
+			privilegio = iPrivilegioRepo.findAll();
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCode.PRIVILEGIO_SEARCH, e);
+		}
+
+		return privilegio;
+	}
+
+	public Privilegio findOne(int id) {
+		Optional<Privilegio> privilegio = null;
+		try {
+			privilegio = iPrivilegioRepo.findById(id);
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCode.PRIVILEGIO_SEARCH, e);
+		}
+
+		return privilegio.orElseThrow(() -> new BusinessException(ErrorCode.PRIVILEGIO_NOT_FOUND));
 	}
 }

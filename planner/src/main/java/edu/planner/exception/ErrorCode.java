@@ -19,6 +19,7 @@ public enum ErrorCode {
 	PRIVILEGIO_DELETE(1042, "Erro ao remover privilégio"),
 	PRIVILEGIO_DELETE_VIOLATION(1043, "Não é possível remover um privilégio em uso"),
 	PRIVILEGIO_SEARCH(1044, "Erro ao consultar privilégio"),
+	PRIVILEGIO_NOT_FOUND(1045, "Privilégio não encontrado"),
 	
 	TIPO_USUARIO_SAVE(1060, "Erro ao salvar tipo de usuário"),
 	TIPO_USUARIO_UPDATE(1061, "Erro ao alterar tipo de usuário"),

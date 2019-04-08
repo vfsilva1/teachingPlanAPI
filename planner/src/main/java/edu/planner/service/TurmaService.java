@@ -57,7 +57,7 @@ public class TurmaService implements IService<Turma> {
 	public Page<Turma> findPageable(int page, int count, String descricao) {
 		Page<Turma> turma = null;
 		try {
-			turma = iTurmaRepo.findByNomeContaining(PageRequest.of(page, count), descricao);
+			turma = iTurmaRepo.findByDisciplinaNomeContaining(PageRequest.of(page, count), descricao);
 		} catch (Exception e) {
 			throw new BusinessException(ErrorCode.TURMA_SEARCH, e);
 		}

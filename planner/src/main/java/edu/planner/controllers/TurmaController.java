@@ -44,10 +44,10 @@ public class TurmaController implements IController<Turma> {
 		return retorno ? ResponseEntity.ok(retorno) : ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	}
 
-	@GetMapping("/intervalo/{page}/{count}/{descricao}")
+	@GetMapping("/intervalo/{page}/{count}/{descricaoDisciplina}")
 	public ResponseEntity<Page<Turma>> findPageable(@PathVariable("page") int page, @PathVariable("count") int count,
-			@PathVariable("descricao") String descricao) {
-		Page<Turma> turma = turmaService.findPageable(page, count, descricao);
+			@PathVariable("descricaoDisciplina") String descricaoDisciplina) {
+		Page<Turma> turma = turmaService.findPageable(page, count, descricaoDisciplina);
 		return turma != null ? ResponseEntity.ok(turma) : ResponseEntity.noContent().build();
 	}
 }

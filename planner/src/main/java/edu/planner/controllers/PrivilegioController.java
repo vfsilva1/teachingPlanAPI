@@ -45,9 +45,21 @@ public class PrivilegioController implements IController<Privilegio> {
 	}
 
 	@GetMapping("/intervalo/{page}/{count}/{descricao}")
-	public ResponseEntity<Page<Privilegio>> findPageable(@PathVariable("page") int page, @PathVariable("count") int count,
-			@PathVariable("descricao") String descricao) {
+	public ResponseEntity<Page<Privilegio>> findPageable(@PathVariable("page") int page,
+			@PathVariable("count") int count, @PathVariable("descricao") String descricao) {
 		Page<Privilegio> privilegio = privilegioService.findPageable(page, count, descricao);
+		return privilegio != null ? ResponseEntity.ok(privilegio) : ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/all")
+	public ResponseEntity<Iterable<Privilegio>> findAll() {
+		Iterable<Privilegio> privilegio = privilegioService.findAll();
+		return privilegio != null ? ResponseEntity.ok(privilegio) : ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Privilegio> findOne(@PathVariable("id") int id) {
+		Privilegio privilegio = privilegioService.findOne(id);
 		return privilegio != null ? ResponseEntity.ok(privilegio) : ResponseEntity.noContent().build();
 	}
 }

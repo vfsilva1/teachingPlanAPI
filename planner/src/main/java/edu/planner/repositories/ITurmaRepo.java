@@ -8,5 +8,5 @@ import edu.planner.models.Turma;
 
 public interface ITurmaRepo extends PagingAndSortingRepository<Turma, Integer> {
 
-	public Page<Turma> findByNomeContaining(Pageable page, String descricao);
+	public Page<Turma> findByDisciplinaNomeContaining(Pageable page, String descricao);
 }
