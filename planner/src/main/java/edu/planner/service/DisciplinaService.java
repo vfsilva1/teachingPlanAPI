@@ -1,5 +1,7 @@
 package edu.planner.service;
 
+import java.util.Optional;
+
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -64,5 +66,38 @@ public class DisciplinaService implements IService<Disciplina> {
 		}
 
 		return disciplina;
+	}
+
+	public Page<Disciplina> findPageable(int page, int count) {
+		Page<Disciplina> disciplina = null;
+		try {
+			disciplina = iDisciplinaRepo.findAll(PageRequest.of(page, count));
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCode.DISCIPLINA_SEARCH, e);
+		}
+
+		return disciplina;
+	}
+
+	public Iterable<Disciplina> findAll() {
+		Iterable<Disciplina> disciplina = null;
+		try {
+			disciplina = iDisciplinaRepo.findAll();
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCode.DISCIPLINA_SEARCH, e);
+		}
+
+		return disciplina;
+	}
+
+	public Disciplina findOne(int id) {
+		Optional<Disciplina> disciplina = null;
+		try {
+			disciplina = iDisciplinaRepo.findById(id);
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCode.DISCIPLINA_SEARCH, e);
+		}
+
+		return disciplina.orElseThrow(() -> new BusinessException(ErrorCode.DISCIPLINA_NOT_FOUND));
 	}
 }

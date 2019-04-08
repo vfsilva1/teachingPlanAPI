@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ public class UsuarioController implements IController<Usuario> {
 	UsuarioService usuarioService;
 
 	@Override
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<Usuario> insert(@RequestBody Usuario usuario) {
 		usuario = usuarioService.insert(usuario);
@@ -31,6 +33,7 @@ public class UsuarioController implements IController<Usuario> {
 	}
 
 	@Override
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping
 	public ResponseEntity<Usuario> update(@RequestBody Usuario usuario) {
 		usuario = usuarioService.update(usuario);
@@ -38,16 +41,39 @@ public class UsuarioController implements IController<Usuario> {
 	}
 
 	@Override
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@DeleteMapping("{id}")
 	public ResponseEntity<Boolean> delete(@PathVariable int id) {
 		Boolean retorno = usuarioService.delete(id);
 		return retorno ? ResponseEntity.ok(retorno) : ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping("/intervalo/{page}/{count}/{descricao}")
 	public ResponseEntity<Page<Usuario>> findPageable(@PathVariable("page") int page, @PathVariable("count") int count,
 			@PathVariable("descricao") String descricao) {
 		Page<Usuario> usuario = usuarioService.findPageable(page, count, descricao);
+		return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.noContent().build();
+	}
+
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@GetMapping("/intervalo/{page}/{count}")
+	public ResponseEntity<Page<Usuario>> findPageable(@PathVariable("page") int page,
+			@PathVariable("count") int count) {
+		Page<Usuario> usuario = usuarioService.findPageable(page, count);
+		return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.noContent().build();
+	}
+
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@GetMapping("/all")
+	public ResponseEntity<Iterable<Usuario>> findAll() {
+		Iterable<Usuario> usuario = usuarioService.findAll();
+		return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Usuario> findOne(@PathVariable("id") int id) {
+		Usuario usuario = usuarioService.findOne(id);
 		return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.noContent().build();
 	}
 }

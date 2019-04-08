@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ public class CursoController implements IController<Curso> {
 	CursoService cursoService;
 
 	@Override
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<Curso> insert(@RequestBody Curso curso) {
 		curso = cursoService.insert(curso);
@@ -31,6 +33,7 @@ public class CursoController implements IController<Curso> {
 	}
 
 	@Override
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping
 	public ResponseEntity<Curso> update(@RequestBody Curso curso) {
 		curso = cursoService.update(curso);
@@ -38,6 +41,7 @@ public class CursoController implements IController<Curso> {
 	}
 
 	@Override
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@DeleteMapping("{id}")
 	public ResponseEntity<Boolean> delete(@PathVariable int id) {
 		Boolean retorno = cursoService.delete(id);
@@ -48,6 +52,24 @@ public class CursoController implements IController<Curso> {
 	public ResponseEntity<Page<Curso>> findPageable(@PathVariable("page") int page, @PathVariable("count") int count,
 			@PathVariable("descricao") String descricao) {
 		Page<Curso> curso = cursoService.findPageable(page, count, descricao);
+		return curso != null ? ResponseEntity.ok(curso) : ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/intervalo/{page}/{count}")
+	public ResponseEntity<Page<Curso>> findPageable(@PathVariable("page") int page, @PathVariable("count") int count) {
+		Page<Curso> curso = cursoService.findPageable(page, count);
+		return curso != null ? ResponseEntity.ok(curso) : ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/all")
+	public ResponseEntity<Iterable<Curso>> findAll() {
+		Iterable<Curso> curso = cursoService.findAll();
+		return curso != null ? ResponseEntity.ok(curso) : ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Curso> findOne(@PathVariable("id") int id) {
+		Curso curso = cursoService.findOne(id);
 		return curso != null ? ResponseEntity.ok(curso) : ResponseEntity.noContent().build();
 	}
 }

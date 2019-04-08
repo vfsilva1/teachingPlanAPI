@@ -1,5 +1,7 @@
 package edu.planner.service;
 
+import java.util.Optional;
+
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -63,5 +65,38 @@ public class TurmaService implements IService<Turma> {
 		}
 
 		return turma;
+	}
+
+	public Page<Turma> findPageable(int page, int count) {
+		Page<Turma> turma = null;
+		try {
+			turma = iTurmaRepo.findAll(PageRequest.of(page, count));
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCode.TURMA_SEARCH, e);
+		}
+
+		return turma;
+	}
+
+	public Iterable<Turma> findAll() {
+		Iterable<Turma> turma = null;
+		try {
+			turma = iTurmaRepo.findAll();
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCode.TURMA_SEARCH, e);
+		}
+
+		return turma;
+	}
+
+	public Turma findOne(int id) {
+		Optional<Turma> turma = null;
+		try {
+			turma = iTurmaRepo.findById(id);
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCode.TURMA_SEARCH, e);
+		}
+
+		return turma.orElseThrow(() -> new BusinessException(ErrorCode.TURMA_NOT_FOUND));
 	}
 }

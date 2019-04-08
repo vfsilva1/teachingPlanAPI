@@ -1,5 +1,7 @@
 package edu.planner.service;
 
+import java.util.Optional;
+
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -68,5 +70,38 @@ public class UsuarioService implements IService<Usuario> {
 		}
 
 		return usuario;
+	}
+
+	public Page<Usuario> findPageable(int page, int count) {
+		Page<Usuario> usuario = null;
+		try {
+			usuario = iUsuarioRepo.findAll(PageRequest.of(page, count));
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCode.USUARIO_SEARCH, e);
+		}
+
+		return usuario;
+	}
+
+	public Iterable<Usuario> findAll() {
+		Iterable<Usuario> usuario = null;
+		try {
+			usuario = iUsuarioRepo.findAll();
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCode.USUARIO_SEARCH, e);
+		}
+
+		return usuario;
+	}
+
+	public Usuario findOne(int id) {
+		Optional<Usuario> usuario = null;
+		try {
+			usuario = iUsuarioRepo.findById(id);
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCode.USUARIO_SEARCH, e);
+		}
+
+		return usuario.orElseThrow(() -> new BusinessException(ErrorCode.USUARIO_NOT_FOUND));
 	}
 }
