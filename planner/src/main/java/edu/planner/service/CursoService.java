@@ -1,5 +1,7 @@
 package edu.planner.service;
 
+import java.util.Optional;
+
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -63,5 +65,38 @@ public class CursoService implements IService<Curso> {
 		}
 
 		return curso;
+	}
+
+	public Page<Curso> findPageable(int page, int count) {
+		Page<Curso> curso = null;
+		try {
+			curso = iCursoRepo.findAll(PageRequest.of(page, count));
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCode.CURSO_SEARCH, e);
+		}
+
+		return curso;
+	}
+
+	public Iterable<Curso> findAll() {
+		Iterable<Curso> curso = null;
+		try {
+			curso = iCursoRepo.findAll();
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCode.CURSO_SEARCH, e);
+		}
+
+		return curso;
+	}
+
+	public Curso findOne(int id) {
+		Optional<Curso> curso = null;
+		try {
+			curso = iCursoRepo.findById(id);
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCode.CURSO_SEARCH, e);
+		}
+
+		return curso.orElseThrow(() -> new BusinessException(ErrorCode.CURSO_NOT_FOUND));
 	}
 }

@@ -3,10 +3,16 @@ package edu.planner.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,8 +20,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import edu.planner.enums.EnumTipoUsuario;
+import edu.planner.enums.Perfil;
 import edu.planner.enums.Titulacao;
 
 @Entity
@@ -30,15 +40,22 @@ public class Usuario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@NotEmpty
 	private String nome;
 
 	private Integer titulacao;
 
+	@NotEmpty
 	private String email;
 
+	@JsonIgnore
+	@NotEmpty
 	private String hashKey;
+	
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="PERFIS")
+	private Set<Integer> perfis = new HashSet<>();
 
-	// TODO Mapear item que não possue referencia dos dois lados
 	@ManyToMany
 	@JoinTable(name = "USUARIO_TIPO_USUARIO",
 		joinColumns = @JoinColumn(name = "tipoUsuario"),
@@ -96,6 +113,14 @@ public class Usuario implements Serializable {
 
 	public void setHashKey(String hashKey) {
 		this.hashKey = hashKey;
+	}
+	
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	}
+
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getCod());
 	}
 
 	public List<TipoUsuario> getTiposUsuarios() {

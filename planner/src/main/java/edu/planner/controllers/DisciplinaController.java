@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ public class DisciplinaController implements IController<Disciplina> {
 	DisciplinaService disciplinaService;
 
 	@Override
+	@PreAuthorize("hasAnyRole('COORDENADOR')")
 	@PostMapping
 	public ResponseEntity<Disciplina> insert(@RequestBody Disciplina disciplina) {
 		disciplina = disciplinaService.insert(disciplina);
@@ -31,6 +33,7 @@ public class DisciplinaController implements IController<Disciplina> {
 	}
 
 	@Override
+	@PreAuthorize("hasAnyRole('COORDENADOR')")
 	@PutMapping
 	public ResponseEntity<Disciplina> update(@RequestBody Disciplina disciplina) {
 		disciplina = disciplinaService.update(disciplina);
@@ -38,6 +41,7 @@ public class DisciplinaController implements IController<Disciplina> {
 	}
 
 	@Override
+	@PreAuthorize("hasAnyRole('COORDENADOR')")
 	@DeleteMapping("{id}")
 	public ResponseEntity<Boolean> delete(@PathVariable int id) {
 		Boolean retorno = disciplinaService.delete(id);
@@ -45,9 +49,27 @@ public class DisciplinaController implements IController<Disciplina> {
 	}
 
 	@GetMapping("/intervalo/{page}/{count}/{descricao}")
-	public ResponseEntity<Page<Disciplina>> findPageable(@PathVariable("page") int page, @PathVariable("count") int count,
-			@PathVariable("descricao") String descricao) {
+	public ResponseEntity<Page<Disciplina>> findPageable(@PathVariable("page") int page,
+			@PathVariable("count") int count, @PathVariable("descricao") String descricao) {
 		Page<Disciplina> disciplina = disciplinaService.findPageable(page, count, descricao);
+		return disciplina != null ? ResponseEntity.ok(disciplina) : ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/intervalo/{page}/{count}")
+	public ResponseEntity<Page<Disciplina>> findPageable(@PathVariable("page") int page, @PathVariable("count") int count) {
+		Page<Disciplina> disciplina = disciplinaService.findPageable(page, count);
+		return disciplina != null ? ResponseEntity.ok(disciplina) : ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/all")
+	public ResponseEntity<Iterable<Disciplina>> findAll() {
+		Iterable<Disciplina> disciplina = disciplinaService.findAll();
+		return disciplina != null ? ResponseEntity.ok(disciplina) : ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Disciplina> findOne(@PathVariable("id") int id) {
+		Disciplina disciplina = disciplinaService.findOne(id);
 		return disciplina != null ? ResponseEntity.ok(disciplina) : ResponseEntity.noContent().build();
 	}
 }
